@@ -73,22 +73,31 @@ elif correy_ct > khan_ct and correy_ct > li_ct and correy_ct > otooley_ct:
 elif otooley_ct > khan_ct and otooley_ct > li_ct and otooley_ct > correy_ct:
     winner = "O'Tooley"
 
-
-# print("Election Results")
-# print("-------------------------")
-# print(f"Total Votes: {count}")
-# print("-------------------------")
-# print(f"Khan: {khan_pct:.3f}% ({khan_ct})")
-# print(f"Correy: {correy_pct:.3f}% ({correy_ct})")
-# print(f"Li: {li_pct:.3f}% ({li_ct})")
-# print(f"O'Tooley: {otooley_pct:.3f}% ({otooley_ct})")
-# print("-------------------------")
-# print(f"Winner: {winner}")
-# print("-------------------------")
+print("Election Results")
+print("-------------------------")
+print(f"Total Votes: {count}")
+print("-------------------------")
+print(f"Khan: {khan_pct:.3f}% ({khan_ct})")
+print(f"Correy: {correy_pct:.3f}% ({correy_ct})")
+print(f"Li: {li_pct:.3f}% ({li_ct})")
+print(f"O'Tooley: {otooley_pct:.3f}% ({otooley_ct})")
+print("-------------------------")
+print(f"Winner: {winner}")
+print("-------------------------")
 
 # Write in txt file
 with open("pypoll.txt", "w") as text_file:
-    text_file.write("Election Results")
 
+    text_file.write(f"""Election Results
+-------------------------
+Total Votes: {count}
+-------------------------
+Khan: {khan_pct:.3f}% ({khan_ct})
+Correy: {correy_pct:.3f}% ({correy_ct})
+Li: {li_pct:.3f}% ({li_ct})
+O'Tooley: {otooley_pct:.3f}% ({otooley_ct})
+-------------------------
+Winner: {winner}
+-------------------------""")
 
     text_file.close()
