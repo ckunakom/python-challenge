@@ -5,9 +5,6 @@ import csv
 # Path to collect data from the Resources folder
 pypollpath = os.path.join('Resources', 'election_data.csv')
 
-# Specify path to the file to write to
-pypolltxt = os.path.join('analysis', 'election.txt')
-
 candidate = []
 li = []
 correy = []
@@ -85,8 +82,11 @@ print("-------------------------")
 print(f"Winner: {winner}")
 print("-------------------------")
 
+# Specify path to the file to write to
+pypolltxt = os.path.join('analysis', 'pypoll.txt')
+
 # Write in txt file
-with open("pypoll.txt", "w") as text_file:
+with open(pypolltxt, "w") as text_file:
 
     text_file.write(f"""Election Results
 -------------------------
