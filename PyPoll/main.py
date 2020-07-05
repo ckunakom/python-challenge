@@ -68,3 +68,5 @@ with open(pypolltxt, "w") as text_file:
 
     # Call on the result_string and print to txt file w/o calculating the poll results again
     text_file.write(result_string)
+    
+    text_file.close()
