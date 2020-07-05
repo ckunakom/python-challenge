@@ -5,11 +5,34 @@ import csv
 # Path to collect data from the Resources folder
 pypollpath = os.path.join('Resources', 'election_data.csv')
 
-candidate = []
-li = []
-correy = []
-khan = []
-otooley = []
+# Define the function to find the number of votes, percentage for each candidate and the winner 
+def poll_result(total_votes, candidates):
+    
+    candidate_result = ""
+
+    # Iterate over a dictionary to get:
+    # - total number of votes each candidate won
+    # - percentage of votes each candidate won
+    for candidate_name, vote_count in candidates.items():
+        percentage = vote_count / total_votes * 100
+        candidate_result += f"\n{candidate_name}: {percentage:.3f}% ({vote_count})"
+
+    # The winner of the election based on popular vote
+    winner = max(candidates, key=candidates.get)
+
+    return "Election Results" +\
+        "\n-------------------------" +\
+        f"\nTotal Votes: {total_votes}" +\
+        "\n-------------------------" +\
+        candidate_result +\
+        "\n-------------------------" +\
+        f"\nWinner: {winner}" +\
+        "\n-------------------------"
+
+# Create an empty dictionary to add all the candidates and the # of votes after the loop
+candidates = {}
+# Starting point for counting # of votes
+total_votes = 0
 
 # Read in the CSV file
 with open(pypollpath, 'r') as csvfile:
@@ -20,84 +43,28 @@ with open(pypollpath, 'r') as csvfile:
     
     # Read each row of data after the header
     for row in csvreader:
-    
-        # Start adding the vote cast row by row, using candidate row... more to come
-        candidate.append(row[2])
+        
+        total_votes = total_votes + 1
 
-        # Using if to start counting vote for each candidate by add the count to their respective list
-        # Add # vote to 'khan' list
-        if "Khan" == row[2]:
-            khan.append(1)
+        name = row [2]
+        
+        if name not in candidates:
+            # add the candidate to dictionary
+            candidates[name] = 1
 
-        # Add # vote to 'li' list
-        elif "Li" == row[2]:
-            li.append(1)
+        else:
+            # add 1 to the candidate
+            candidates[name] = candidates[name] + 1
 
-        # Add # vote to 'correy' list
-        elif "Correy" == row[2]:
-            correy.append(1)
-
-        # Add # vote to 'otooley' list
-        elif "O'Tooley" == row[2]:
-            otooley.append(1)
-
-# The total number of votes cast
-count = len(candidate)
-
-# A complete list of candidates who received votes
-candidatelist = set(candidate)
-# Checking to see who are the candidates using print(candidatelist) / omitted
-
-# The total number of votes each candidate won
-khan_ct = len(khan)
-li_ct = len(li)
-correy_ct = len(correy)
-otooley_ct = len(otooley)
-
-# The percentage of votes each candidate won
-khan_pct = (khan_ct/count) * 100
-li_pct = (li_ct/count) * 100
-correy_pct = (correy_ct/count) * 100
-otooley_pct = (otooley_ct/count) * 100
-
-# The winner of the election based on popular vote
-if khan_ct > li_ct and khan_ct > correy_ct and khan_ct > otooley_ct:
-    winner = "Khan"
-elif li_ct > khan_ct and li_ct > correy_ct and li_ct > otooley_ct:
-    winner = "Li"
-elif correy_ct > khan_ct and correy_ct > li_ct and correy_ct > otooley_ct:
-    winner = "Correy"
-elif otooley_ct > khan_ct and otooley_ct > li_ct and otooley_ct > correy_ct:
-    winner = "O'Tooley"
-
-print("Election Results")
-print("-------------------------")
-print(f"Total Votes: {count}")
-print("-------------------------")
-print(f"Khan: {khan_pct:.3f}% ({khan_ct})")
-print(f"Correy: {correy_pct:.3f}% ({correy_ct})")
-print(f"Li: {li_pct:.3f}% ({li_ct})")
-print(f"O'Tooley: {otooley_pct:.3f}% ({otooley_ct})")
-print("-------------------------")
-print(f"Winner: {winner}")
-print("-------------------------")
+# Save the result strings into the variable, so...
+result_string = poll_result(total_votes, candidates)
+print(result_string)
 
 # Specify path to the file to write to
-pypolltxt = os.path.join('analysis', 'pypoll.txt')
+pypolltxt = os.path.join("analysis","pypoll.txt")
 
 # Write in txt file
 with open(pypolltxt, "w") as text_file:
 
-    text_file.write(f"""Election Results
--------------------------
-Total Votes: {count}
--------------------------
-Khan: {khan_pct:.3f}% ({khan_ct})
-Correy: {correy_pct:.3f}% ({correy_ct})
-Li: {li_pct:.3f}% ({li_ct})
-O'Tooley: {otooley_pct:.3f}% ({otooley_ct})
--------------------------
-Winner: {winner}
--------------------------""")
-
-    text_file.close()
+    # Call on the result_string and print to txt file w/o calculating the poll results again
+    text_file.write(result_string)
